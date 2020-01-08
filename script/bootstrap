@@ -49,6 +49,18 @@ setup_gitconfig () {
   fi
 }
 
+setup_z () {
+  if ! [ -d $HOME/Projects/Perso/z ]
+  then
+    info 'setup z jump'
+
+    git clone -q https://github.com/rupa/z.git $HOME/Projects/Perso/z
+    cp $HOME/Projects/Perso/z/z.sh $DOTFILES_ROOT/functions/z
+
+    success 'z'
+  fi
+}
+
 
 link_file () {
   local src=$1 dst=$2
@@ -138,6 +150,7 @@ install_dotfiles () {
 }
 
 setup_gitconfig
+setup_z
 install_dotfiles
 
 # If we're on a Mac, let's install and setup homebrew.

@@ -1,14 +1,21 @@
-#!/bin/sh
+#!/bin/bash
 #
 # dot
 #
 # `dot` handles installation, updates, things like that. Run it periodically
 # to make sure you're on the latest and greatest.
-
 set -e
 
-parentDirectory="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P)"
-dotfilesDirectory="$(cd "$( dirname "$parentDirectory" )" && pwd -P)"
+
+source="${BASH_SOURCE[0]}"
+while [ -h "$source" ]; do # resolve $source until the file is no longer a symlink
+  currentDirectory="$( cd -P "$( dirname "$source" )" && pwd )"
+  source="$(readlink "$source")"
+  [[ $source != /* ]] && source="$currentDirectory/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+currentDirectory="$( cd -P "$( dirname "$source" )" && pwd )"
+
+dotfilesDirectory="$(cd "$( dirname "$currentDirectory" )" && pwd -P)"
 
 displayUsageAndExit() {
 	echo "dot -- dotfiles management"
@@ -27,7 +34,7 @@ while test $# -gt 0; do
 			displayUsageAndExit
 			;;
 		"-e"|"--edit")
-			exec "$EDITOR" "$dotfilesDirectory"
+			exec "pstorm" "$dotfilesDirectory"
 			exit
 			;;
 		*)
@@ -38,17 +45,7 @@ while test $# -gt 0; do
 	shift
 done
 
-export ZSH=$HOME/.dotfiles
-
-# Set macOS defaults
-$ZSH/macos/set-defaults.sh
-
-# Install homebrew
-$ZSH/homebrew/install.sh 2>&1
-
-# Upgrade homebrew
-echo "› brew update"
-brew update
+export ZSH=$HOME/Projects/Perso/dotfiles
 
 # Install software
 echo "› $ZSH/script/install"

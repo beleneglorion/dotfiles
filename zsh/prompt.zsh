@@ -1,4 +1,5 @@
 autoload colors && colors
+export last_autoload_autoaliases_directory_name=""
 # cheers, @ehrenmurdick
 # http://github.com/ehrenmurdick/config/blob/master/zsh/prompt.zsh
 
@@ -71,7 +72,22 @@ set_prompt () {
   export RPROMPT="%{$fg_bold[cyan]%}%{$reset_color%}"
 }
 
+# Autoload switch aliases for current projet
+load_autoaliases () {
+  current_directory_name=$(pwd -P)
+  if [[ $current_directory_name != $last_autoload_autoaliases_directory_name ]]
+  then
+      if [[ -f .autoaliases.sh ]]
+      then
+        echo "Load local aliases"
+        source .autoaliases.sh;
+        export last_autoload_autoaliases_directory_name=$current_directory_name
+      fi
+  fi
+}
+
 precmd() {
   title "zsh" "%m" "%55<...<%~"
+  load_autoaliases
   set_prompt
 }
