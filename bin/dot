@@ -45,8 +45,8 @@ while test $# -gt 0; do
 	shift
 done
 
-export ZSH=$HOME/Projects/Perso/dotfiles
+export ZSH_DOT=$HOME/Projects/Perso/dotfiles
 
 # Install software
-echo "› $ZSH/script/install"
-$ZSH/script/install
+echo "› $ZSH_DOT/script/install"
+$ZSH_DOT/script/install
