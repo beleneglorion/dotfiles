@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+# Author: Sébastien Thibault <sebastien.thibault@hinatachii.com>
+#
+
+
+usage() {
+  printf -- 'Usage: task-add [OPTIONS]... [ARGUMENTS]...\n';
+  printf -- '\n';
+  printf -- 'OPTIONS\n';
+  printf -- '   -h, --help\n';
+  printf -- '                Print this help message\n';
+  printf -- ' EXAMPLES\n';
+  printf -- '\n';
+}
+
+main() {
+
+  if [[ ${#@} -eq 0 ]] ||  ( [[ ${#@} -ne 0 ]] && ( [[ "${@#"--help"}" = "" ]] || [[ "${@#"-h"}" = "" ]] )); then
+    usage
+    exit 0;
+  fi;
+
+  if [[ ${#@} -ge 1 ]]; then
+    local args_list=( $@ )
+    echo ${args_list[*]}
+    exit 0
+   fi
+}
+
+main $@

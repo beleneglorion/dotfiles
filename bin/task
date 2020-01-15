@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# Author: Sébastien Thibault <sebastien.thibault@hinatachii.com>
+#
+
+
+usage() {
+  printf -- 'Usage: task [OPTIONS]... [ARGUMENTS]...\n';
+  printf -- '\n';
+  printf -- 'OPTIONS\n';
+  printf -- '   -h, --help\n';
+  printf -- '                Print this help message\n';
+  printf -- ' EXAMPLES\n';
+  printf -- '\n';
+}
+
+main() {
+
+  if [[ ${#@} -eq 0 ]] ||  ( [[ ${#@} -ne 0 ]] && ( [[ "${@#"--help"}" = "" ]] || [[ "${@#"-h"}" = "" ]] )); then
+    usage
+    exit 0;
+  fi;
+
+  if [[ ${#@} -ge 1 ]]; then
+    local args_list=( $@ )
+    local first_arg=${args_list[0]}
+    args_list=("${args_list[@]:1}")
+
+    if ! command -v task-${first_arg}; then
+    printf "$first_arg  is not a valid command"
+    exit 1
+    fi
+  task-${first_arg} ${args_list[*]}
+  exit $?
+  fi
+
+}
+
+main $@
