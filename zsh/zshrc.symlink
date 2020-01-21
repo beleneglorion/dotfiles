@@ -54,5 +54,5 @@ export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="agnoster"
 source $ZSH/oh-my-zsh.sh
 export NGINX_PROXY=enabled
-export NGINX_PROXY_DIRECTORY=/home/beleneglorion/Projects/Pro/docker/nginx-proxy
+export NGINX_PROXY_DIRECTORY=~/Projects/Pro/docker/nginx-proxy
 PATH=$PATH:$NGINX_PROXY_DIRECTORY/bin

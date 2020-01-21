@@ -9,6 +9,9 @@
         wtf     = !$ZSH_DOT/bin/git-wtf
         rank-contributors = !$ZSH_DOT/bin/git-rank-contributors
         count   = !git shortlog -sn
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lg1 = log --pretty=oneline --abbrev-commit
+	lgcsv = log --pretty=format:'\"%h\",\"%an\",\"%ae\",\"%s\"' --abbrev-commit
 [color]
         diff = auto
         status = auto
