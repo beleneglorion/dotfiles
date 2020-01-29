@@ -50,7 +50,7 @@ setup_gitconfig () {
 }
 
 setup_z () {
-  if ! [ -d $HOME/Projects/Perso/z ]
+  if ! [ -d $HOME/Projects/Apps/z ]
   then
     info 'setup z jump'
 
