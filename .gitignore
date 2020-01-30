@@ -1,2 +1,7 @@
 git/gitconfig.local.symlink
 functions/z
+bin/bashful-*
+bin/bashful
+bin/shdoc
+bin/git-semver
+.idea

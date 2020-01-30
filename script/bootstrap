@@ -49,15 +49,44 @@ setup_gitconfig () {
   fi
 }
 
-setup_z () {
-  if ! [ -d $HOME/Projects/Apps/z ]
+setup_z() {
+  local dir=$HOME/Projects/Apps/z
+  info 'setup z'
+  if ! [[ -d "${dir}"  ]]
   then
-    info 'setup z jump'
 
-    git clone -q https://github.com/rupa/z.git $HOME/Projects/Perso/z
-    cp $HOME/Projects/Perso/z/z.sh $DOTFILES_ROOT/functions/z
+
+    git clone -q https://github.com/rupa/z.git "${dir}"
+    cp "${dir}"/z.sh "${DOTFILES_ROOT}/functions/z"
 
     success 'z'
+  fi
+}
+
+setup_bashful() {
+  info 'setup bashful'
+  local dir=$HOME/Projects/Apps/bashful
+  if ! [[ -d "${dir}"  ]]
+  then
+    git clone -q https://github.com/jmcantrell/bashful.git "${dir}"
+    local overwrite_all=false backup_all=false skip_all=false
+    for src in $(find -H "${dir}/bin" -maxdepth 1 -name '*')
+    do
+      dst="$DOTFILES_ROOT/bin/$(basename "${src}")"
+      link_file "$src" "$dst"
+    done
+    success 'install bashful'
+  else
+   (
+     cd ${dir}
+     git pull -q origin master
+   )
+  for src in $(find -H "${dir}/bin" -maxdepth 1 -name '*')
+    do
+      dst="$DOTFILES_ROOT/bin/$(basename "${src}")"
+      link_file "$src" "$dst"
+    done
+    success 'update bashful'
   fi
 }
 
@@ -151,6 +180,7 @@ install_dotfiles () {
 
 setup_gitconfig
 setup_z
+setup_bashful
 install_dotfiles
 
 # If we're on a Mac, let's install and setup homebrew.
