@@ -70,7 +70,7 @@ setup_bashful() {
   then
     git clone -q https://github.com/jmcantrell/bashful.git "${dir}"
     local overwrite_all=false backup_all=false skip_all=false
-    for src in $(find -H "${dir}/bin" -maxdepth 1 -name '*')
+    for src in $(find -H "${dir}/bin/" -type f -perm /001 -name '*' )
     do
       dst="$DOTFILES_ROOT/bin/$(basename "${src}")"
       link_file "$src" "$dst"
@@ -82,7 +82,7 @@ setup_bashful() {
        git pull -q origin master
      )
     local overwrite_all=false backup_all=false skip_all=true
-    for src in $(find -H "${dir}/bin" -maxdepth 1 -name '*')
+    for src in $(find -H "${dir}/bin/" -type f -perm /001 -name '*' )
       do
         dst="$DOTFILES_ROOT/bin/$(basename "${src}")"
         link_file "$src" "$dst"
