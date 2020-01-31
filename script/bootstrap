@@ -77,16 +77,17 @@ setup_bashful() {
     done
     success 'install bashful'
   else
-   (
-     cd ${dir}
-     git pull -q origin master
-   )
-  for src in $(find -H "${dir}/bin" -maxdepth 1 -name '*')
-    do
-      dst="$DOTFILES_ROOT/bin/$(basename "${src}")"
-      link_file "$src" "$dst"
-    done
-    success 'update bashful'
+     (
+       cd "${dir}"
+       git pull -q origin master
+     )
+    local overwrite_all=false backup_all=false skip_all=true
+    for src in $(find -H "${dir}/bin" -maxdepth 1 -name '*')
+      do
+        dst="$DOTFILES_ROOT/bin/$(basename "${src}")"
+        link_file "$src" "$dst"
+      done
+      success 'update bashful'
   fi
 }
 
